@@ -1,0 +1,62 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .minute-wrapper {
+        border: 1px solid #eceeef;
+    }
+ 
+    .hour-name {
+        padding: 5px;
+        text-align: right;
+        border: 1px solid #eceeef;
+    }
+ 
+    .just-hour {
+        border-top: 1px solid #eceeef;
+    }
+</style>
+<div class="container">
+  {{ form.non_field_errors }}
+    <div class="row mt-5">
+        <div class="col-sm-8">
+            {{ time_schedule }}
+        </div>
+        <div class="col-sm-4">
+            <form action="" method="POST">
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">送信</button>
+            </form>         
+        </div>
+    </div><!-- /.row -->
+</div><!-- /.container -->
+{% endblock %}
+ 
+{% block extrajs %}
+<!-- timedropper css js -->
+<link rel="stylesheet" type="text/css" href="{% static 'app/timedropper/timedropper.min.css' %}">
+<script src="{% static 'app/timedropper/timedropper.min.js' %}"></script>
+<script>
+    $(function() {
+        // Bootstrap4 tooltip
+        $('[data-toggle="tooltip"]').tooltip('show');
+ 
+        // timedropper
+        $( "#id_start_time" ).timeDropper({
+            format: "H:mm",
+            setCurrentTime: false,
+        });
+        $( "#id_end_time" ).timeDropper({
+            format: "H:mm",
+            setCurrentTime: false,
+        });
+    });
+</script>
+{% endblock %}
